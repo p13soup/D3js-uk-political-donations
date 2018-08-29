@@ -16,6 +16,17 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Raleway:400,700">
 
+	<audio src="audio.mp3" id="audio"></audio>
+	
+	<script language="javascript" type="text/javascript">
+		function sound(){
+			var audio = document.getElementById('audio');
+			audio.play();
+		}
+	</script>
+	
+
+		
     <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-44807543-1']);
@@ -30,23 +41,26 @@
         s.parentNode.insertBefore(ga, s);
     })();
     </script>
+	
 </head>
 <!-- Add feature detection and noscript -->
 
 <body>
 
-    <header role="banner" id="title">
+    <header role="banner" id="title" class="zoomed">
         <h1>Who's funding the big three?</h1>
     </header>
     <nav role="navigation">
         <ul>
-            <li><a href="#" role="button" class="pure-button switch" id="all-donations">All money</a>
+            <li><a href="#" role="button" class="pure-button switch" id="all-donations" onclick="sound()">All money</a>
             </li>
-            <li><a href="#" role="button" class="pure-button switch" id="group-by-money-source">The public's purse</a>
+            <li><a href="#" role="button" class="pure-button switch" id="group-by-money-source" onclick="sound()">The public's purse</a>
             </li>
-            <li><a href="#" role="button" class="pure-button switch" id="group-by-party">Split by party</a>
+            <li><a href="#" role="button" class="pure-button switch" id="group-by-party" onclick="sound()">Split by party</a>
             </li>
-            <li><a href="#" role="button" class="pure-button switch" id="group-by-donor-type">Split by type of donor</a>
+            <li><a href="#" role="button" class="pure-button switch" id="group-by-donor-type" onclick="sound()">Split by type of donor</a>
+            </li>
+			<li><a href="#" role="button" class="pure-button switch" id="group-by-donation-amount" onclick="sound()">Split by amount of donation</a>
             </li>
         </ul>
     </nav>
@@ -54,9 +68,9 @@
     <div id="annotations">
 
         <!-- Initial annotations -->
-        <div id="initial-content">
+        <div id="initial-content" class="zoomed">
             <h2>Political donations and funding accepted by the Conservatives, Labour and Liberal Democrats between the 2010 general election and August 2013, when this data was collected.</h2>
-            <p>Each circle represents the total amount donated by a single donor group, funding organisation or individual during that period.</p>
+            <p id="test">Each circle represents the total amount donated by a single donor group, funding organisation or individual during that period.</p>
             <p>Hover over a circle to show further information.</p>
 
             <p>Get an immediate overview of how party funding is shaped in Britain today by selecting one of the options at the top of the page.</p>
@@ -64,7 +78,7 @@
             <p>Data source: <a href="http://www.electoralcommission.org.uk/">The Electoral Commission.</a>
             </p>
         </div>
-        <div id="value-scale">
+        <div id="value-scale" class="zoomed">
             <div id="f">
                 <p>&#8212;UK average salary</p>
             </div>
@@ -87,7 +101,7 @@
         <!-- End initial-->
 
         <!-- Public or private money annotations -->
-        <div id="view-source-type">
+        <div id="view-source-type" class="zoomed">
             <div id="public-or-private-money" class="public-private">
                 <h3>Public money vs private cash</h3>
                 <p>Despite general public opposition to more taxpayer money being given to political parties, public funds are already provided to opposition parties in the form of 'short money' from the House of Commons, House of Lords and Scottish Parliament.</p>
@@ -114,7 +128,7 @@
         </div>
         <!-- End public or private money -->
 
-        <div id="view-party-type">
+        <div id="view-party-type" class="zoomed">
             <h3>Income for each party from private sources.</h3>
             <div id="conservative">
                 <h5>Conservative Party</h5>
@@ -128,7 +142,7 @@
                             <strong>&#163;12,877,989</strong>
                             <br>
                             <strong>27%</strong>of the total</p>
-            </div>
+            </div>			
             <div id="labour">
                 <h5>Labour Party</h5>
                 <strong>Total: &#163;38.9 million
@@ -156,7 +170,7 @@
                             <strong>43%</strong>of the total</p>
             </div>
         </div>
-        <div id="view-donor-type">
+        <div id="view-donor-type" class="zoomed">
             <div id="individual">
                 <h5>Individuals</h5>
                 <strong>Total: &#163; 35,191,222
@@ -198,9 +212,38 @@
                         </p>
             </div>
         </div>
+			<div id="view-donation-amount" class="zoomed">
+					<h2>Separation By Amount Of Donation</h2>
+				
+				<div id="mil">
+					<p>Over 500.000 million pounds</p>
+				</div>
+
+				<div id="halfMil">
+					<p>Up to 500.000 pounds</p>
+				</div>
+				
+				<div id="hunK">
+					<p>Up to 100.000 pounds</p>
+				</div>
+				
+				<div id="fiftyK">
+					<p>Up to 50.000 pounds</p>
+				</div>
+				
+				<div id="twenK">
+					<p>Up to 25.000 pounds</p>
+				</div>
+            </div>
     </div>
     <div id="chart"></div>
-
+		<h2>Donators you have seen</h2>
+	<div class="photoHover" id="photoDisplay">
+		<div class="lastSeenContainer" id="lastSeen">
+			
+		</div>
+	</div>
+	
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script>
@@ -208,6 +251,63 @@
     </script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js" charset="utf-8"></script>
     <script src="chart.js"></script>
+
+
+	<script language="javascript" type="text/javascript">
+		document.querySelectorAll(".zoomed p")
+		.forEach(function(x){
+			var replacement;
+			replacement=x.innerHTML.replace(/\b(\w+(?![^<>]*>))\b/g,"<span class=\"wordzoom\">$1</span>");
+			x.innerHTML=replacement;
+			});
+	</script>
+
+	<script language="javascript" type="text/javascript">
+		document.querySelectorAll(".zoomed h1")
+		.forEach(function(x){
+			var replacement;
+			replacement=x.innerHTML.replace(/\b(\w+(?![^<>]*>))\b/g,"<span class=\"wordzoom\">$1</span>");
+			x.innerHTML=replacement;
+			});
+	</script>
+	
+	<script language="javascript" type="text/javascript">
+		document.querySelectorAll(".zoomed h2")
+		.forEach(function(x){
+			var replacement;
+			replacement=x.innerHTML.replace(/\b(\w+(?![^<>]*>))\b/g,"<span class=\"wordzoom\">$1</span>");
+			x.innerHTML=replacement;
+			});
+	</script>
+	
+	<script language="javascript" type="text/javascript">
+		document.querySelectorAll(".zoomed h3")
+		.forEach(function(x){
+			var replacement;
+			replacement=x.innerHTML.replace(/\b(\w+(?![^<>]*>))\b/g,"<span class=\"wordzoom\">$1</span>");
+			x.innerHTML=replacement;
+			});
+	</script>
+	
+	<script language="javascript" type="text/javascript">
+		document.querySelectorAll(".zoomed h4")
+		.forEach(function(x){
+			var replacement;
+			replacement=x.innerHTML.replace(/\b(\w+(?![^<>]*>))\b/g,"<span class=\"wordzoom\">$1</span>");
+			x.innerHTML=replacement;
+			});
+	</script>
+	
+	<script language="javascript" type="text/javascript">
+		document.querySelectorAll(".zoomed h5")
+		.forEach(function(x){
+			var replacement;
+			replacement=x.innerHTML.replace(/\b(\w+(?![^<>]*>))\b/g,"<span class=\"wordzoom\">$1</span>");
+			x.innerHTML=replacement;
+			});
+	</script>
+
+	
 </body>
 
 </html>
