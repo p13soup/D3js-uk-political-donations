@@ -26,8 +26,12 @@ li {
 }
 
 /* Initial appearance on load */
-#view-party-type, #view-donor-type, #view-source-type, #view-donation-amount{
+#view-party-type, #view-donor-type, #view-source-type{
     display: none;
+}
+
+ #view-donation-amount{
+	display: none;
 }
 
 /* View containers */
