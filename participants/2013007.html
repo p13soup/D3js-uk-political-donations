@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Participants Π2013007 </title>
+    <h1 style="color:white;">"Who is funding the three" Participants</h1>
+    <style>
+        h1 {
+            text-align: center;
+        }
+         body {
+            background: #4f4f4f;
+            font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+        }
+		.cont{
+			display: table-cell;
+			padding: 20px;
+			float:left;
+			max-height:105px;
+			max-width:150px;
+		}
+		.image{
+			height:100px;
+			width: 100px;
+			padding-right:10px;
+			
+		}
+		.username{
+			color: white;
+		}
+		.contr{
+			color:white;
+			padding-left:10px
+		}
+    </style>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+</head>
+<body>
+
+<div id="contributions" style="clear: both;"></div>
+
+	
+    <script language="javascript" type="text/javascript">
+	
+	var divs;
+	var numContr="Contributions";
+	var user="Username";
+	
+		d3.json("https://api.github.com/repos/ioniodi/D3js-uk-political-donations/contributors?per_page=200", function(contributors){
+				divs = d3.select("#contributions").data(contributors)
+					.enter().append("div")
+					.attr("class", "cont");
+				divs.append("img")
+					.attr("src", function(d){return d.avatar_url})
+					.attr("class", "image");
+				divs.append("span")
+					.attr("username", function(d){return d.login})
+					.attr("class", "username")
+					.text(function(d){return d.login});
+				divs.append("span")
+					.attr("NumContr", function(d){return d.contributions})
+					.attr("class", "contr")
+					.text(function(d){return d.contributions});
+				console.log(contributors);
+		});
+		
+		
+    </script>
+</body>
+</html>
