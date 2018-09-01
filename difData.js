@@ -141,7 +141,7 @@ $(document).ready(function() {
     });
 	
 	
-    return d3.csv("data/data.csv", display);
+    return d3.csv("data.csv", display);
 
 });
 
